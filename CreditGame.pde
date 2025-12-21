@@ -25,11 +25,14 @@ void drawCredit() {
   textAlign(CENTER);
   textSize(18);
   text("CREDITS", width/2, 170);
-  textSize(16);
+
+  keymapEsc();
 
   // ===================
   // NAMA PEMBUAT (STATIS)
   // ===================
+  textAlign(CENTER);
+  textSize(16);
   text("MAGNOLIA AZIZAH CARISSA", width/2, 230);
   text("(2407431051)", width/2, 250);
   text("MUHAMMAD FARIZ FADHILLAH", width/2, 305);

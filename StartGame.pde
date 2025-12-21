@@ -190,6 +190,9 @@ void drawSetting() {
     textSize(24);
     text("Background: " + (BrightText[savedBackground]), width/2, 220);
     
+    keymapRightLeft();
+    keymapEsc();
+    
     // Single loop for the active skin type
     for (int i = 0; i < Brightness.length; i++) {
       float x = 120 + i * 55;
