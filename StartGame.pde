@@ -120,7 +120,7 @@ void drawSetting() {
     velocity.y = 0;
   }
   
-    if (audio && !setting) {
+  if (audio && !setting) {
     background(20, 30, 50);
     fill(255);
   
@@ -167,7 +167,7 @@ void drawSetting() {
     velocity.y = 0;
   }
     
-    if (brightness && !setting) {
+  if (brightness && !setting) {
     background(20, 30, 50);
     fill(255);
   
@@ -528,7 +528,7 @@ void keyPressed() {
     if (!menu && !(ballSkin || paddleSkin || brickSkin || audio || brightness || credit)) {
       println ("escape to menu");
       
-      if (!skin) {
+      if (!skin && !setting) {
         savedVelocity = velocity.copy();
         paused = true;
       }
