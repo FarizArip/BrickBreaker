@@ -47,6 +47,7 @@ void setup() {
   paddleX = width/2 - paddleWidth/2;
   paddleY = height - 50;
   imageMode(CENTER);
+  logoCredit = loadImage("logo/pnj.png");
   
   Background = new PImage[5];
   Background[0] = loadImage("background/beach.jpg");
@@ -59,9 +60,6 @@ void setup() {
   ballS[0] = loadImage("ball/balldefault.png");
   ballS[1] = loadImage("ball/ballgold.png");
   ballS[2] = loadImage("ball/balldiamond.png");
-  //rainbow = new Gif(this, "bull.gif");
-  //rainbow.play();
-  //ballS[2] = rainbow;
   
   slider = new PImage[3];
   slider[0] = loadImage("slider/sliderdefault.png");
@@ -101,8 +99,7 @@ void draw() {
   background(50);
   stageBack = stage-1;
   if (stageBack > 4) stageBack = 0;
-  if (!mulai || menungguLevelBaru) tint(255, 50);
-  if (mulai && !menungguLevelBaru) tint (255, 150);
+  tint (255, brightBack);
   image(Background[stageBack], width/2, height/2, width, height);
   tint(255, 255);
   fill(#ffffff);
@@ -234,6 +231,7 @@ void draw() {
   drawMenu();
   drawSkin();
   drawSetting();
+  drawCredit();
   poinCukup();
   if (millis() - lastKeyTime > TIMEOUT && !inputBuffer.isEmpty()) {
     inputBuffer = "";

@@ -7,6 +7,8 @@
 String[] menuItems = { "START", "CHANGE SKIN", "SETTING", "QUIT" };
 String[] menuSetting = { "Audio", "Brightness", "Credits" };
 String[] Audio = { "[]", "[]", "[]", "[]", "[]" };
+String[] Brightness = { "[]", "[]", "[]", "[]", "[]" };
+String[] BrightText = {"Gray", "Dark", "Normal", "Bright", "Colorful"};
 int selected = 0;
 
 int jitterCooldown = 0;   // untuk memperlambat jitter
@@ -18,9 +20,10 @@ boolean first = false;
 boolean setting = false;
 boolean audio = false;
 float volume = 0.3;
+int brightBack = 150;
+int savedBackground = 2;
 
 boolean brightness = false;
-boolean credits = false;
 
 void drawMenu() {
   if (menu) {
@@ -153,11 +156,59 @@ void drawSetting() {
       if (i == selected + 1) {
         textAlign(LEFT, CENTER);
         textSize(18);
+        fill(100);
       }
   
       // teks menu
       textAlign(LEFT, CENTER);
       text(Audio[i], x, y);
+    }
+    velocity.x = 0;
+    velocity.y = 0;
+  }
+    
+    if (brightness && !setting) {
+    background(20, 30, 50);
+    fill(255);
+  
+    // Judul
+    textAlign(CENTER);
+    textSize(27);
+    text("Brightness", width/2, 160);
+
+    // Brightness level display
+    textSize(24);
+    text("Background: " + (BrightText[savedBackground]), width/2, 220);
+    
+    // Single loop for the active skin type
+    for (int i = 0; i < Brightness.length; i++) {
+      float x = 120 + i * 55;
+      float y = 300;
+        
+      // pointer + jitter untuk yg dipilih
+      if (i == selected) {
+        
+        // perlambat jitter (update setiap 10 frame)
+        if (jitterCooldown <= 0) {
+          jitterX = random(-1.2, 1.2);
+          jitterY = random(-1.2, 1.2);
+          jitterCooldown = 10;
+        } else {
+          jitterCooldown--;
+  
+        x += jitterX;
+        y += jitterY;
+        }
+      }
+      if (i == selected + 1) {
+        textAlign(LEFT, CENTER);
+        textSize(18);
+        fill(100);
+      }
+  
+      // teks menu
+      textAlign(LEFT, CENTER);
+      text(Brightness[i], x, y);
     }
     velocity.x = 0;
     velocity.y = 0;
@@ -357,16 +408,16 @@ void keyPressed() {
         audio = true;
         selected = int(volume * 10) - 1;
       }
-      if (selected == 1) {
+      else if (selected == 1) {
         println("BRIGHTNESS dipilih");
         setting = false;
         brightness = true;
-        selected = 0;
+        selected = savedBackground;
       }
-      if (selected == 2) {
+      else if (selected == 2) {
         println("CREDIT dipilih");
         setting = false;
-        credits = true;
+        credit = true;
       }
       keySpace = false;
     }
@@ -395,7 +446,57 @@ void keyPressed() {
     }
   }
   
-  if (!menu && !skin && !ballSkin && !paddleSkin && !brickSkin && !setting && !audio && !brightness && !credits && !mulai) {
+  if (brightness) {
+      sin.play();
+      sin.amp(volume);
+      env.play(sin, 0.005, 0.01, 0.5, 0.085);
+    if (key == 'a' || key == 'A' || keyCode == LEFT) {
+      sin.freq(350);
+      selected--;
+      if (selected < 0) selected = 0;
+    }
+    else if (key == 'd' || key == 'D' || keyCode == RIGHT) {
+      sin.freq(350);
+      selected++;
+      if (selected >= Brightness.length) selected = Brightness.length - 1;
+    } 
+    // ===========================
+    //   SPACE untuk memilih
+    // ===========================
+    else if (keyCode == 32 && keySpace) {   // SPACE
+      sin.freq(700);    
+      
+      if (selected == 0) {
+        brightBack = 0;
+      }
+      else if (selected == 1) {
+        brightBack = 50;
+      }
+      else if (selected == 2) {
+        brightBack = 150;
+      }
+      else if (selected == 3) {
+        brightBack = 200;
+      }
+      else if (selected == 4) {
+        brightBack = 255;
+      }
+      savedBackground = selected;
+    }
+  }
+  
+  if (credit) {
+      sin.play();
+      sin.amp(volume);
+      env.play(sin, 0.005, 0.01, 0.5, 0.085);
+    if (keyCode == 32 && keySpace) {   // SPACE
+      sin.freq(700);
+      credit = false;
+      setting = true;
+    }
+  }
+  
+  if (!menu && !skin && !ballSkin && !paddleSkin && !brickSkin && !setting && !audio && !brightness && !credit && !mulai) {
     if (keyCode == 32 && keySpace) {
       sin.play();
       sin.freq(370);
@@ -424,7 +525,7 @@ void keyPressed() {
     sin.amp(volume);
     env.play(sin, 0.05, 0.01, 0.3, 0.1);
     key = 0;
-    if (!menu && !(ballSkin || paddleSkin || brickSkin || audio || brightness || credits)) {
+    if (!menu && !(ballSkin || paddleSkin || brickSkin || audio || brightness || credit)) {
       println ("escape to menu");
       
       if (!skin) {
@@ -445,13 +546,13 @@ void keyPressed() {
       paddleSkin = false;
       brickSkin = false;
     }
-    else if (!menu && (audio || brightness || credits)) {
+    else if (!menu && (audio || brightness || credit)) {
       println ("escape to setting select");
       setting = true;
       selected = 0;
       audio = false;
       brightness = false;
-      credits = false;
+      credit = false;
     }
     else if (menu && first) {
       println ("menu escape");
