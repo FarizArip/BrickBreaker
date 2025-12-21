@@ -36,6 +36,10 @@ float rot = 0;
 float anim = 600;
 float animText = 900;
 
+PImage arrow;
+PImage space;
+PImage esc;
+
 import processing.sound.*;
 TriOsc sin;
 Env env;
@@ -48,6 +52,10 @@ void setup() {
   paddleY = height - 50;
   imageMode(CENTER);
   logoCredit = loadImage("logo/pnj.png");
+  
+  arrow = loadImage("key/arrowup.png");
+  space = loadImage("key/space.png");
+  
   
   Background = new PImage[5];
   Background[0] = loadImage("background/beach.jpg");
