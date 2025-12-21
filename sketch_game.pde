@@ -54,6 +54,7 @@ void setup() {
   
   arrow = loadImage("key/arrowup.png");
   space = loadImage("key/space.png");
+  esc = loadImage("key/esc.png");
   
   
   Background = new PImage[5];
@@ -404,7 +405,7 @@ void awalMulai() {
    //text("Pencet 'Space' untuk mulai", width/2, 350);
    drawTextWithStroke("Pencet 'Space' untuk mulai", width/2, 350, 
     0, 255, 5);
-   
+   keymapList();
  }
 }
 
@@ -482,6 +483,153 @@ void Restart() {
      }
    }
   }
+}
+
+void drawArrow(float x, float y, float rot){
+  float h = textAscent() + textDescent();
+  pushMatrix();
+  translate(x, y);
+  rotate(rot);
+  image(arrow, 0, 0, h, h);
+  popMatrix();
+}
+
+void drawKeymap(
+  float[] arrowRots,
+  String moveText,
+  float y
+) {
+  textSize(18);
+  textAlign(LEFT, CENTER);
+
+  float h = textAscent() + textDescent();
+
+  float iconSize    = h;
+  float iconGap     = 8;
+  float iconTextGap = 10;
+  float groupGap    = 40;
+  float spaceSize   = h * 2;
+
+  float arrowsWidth = iconSize * arrowRots.length
+                    + iconGap * (arrowRots.length - 1);
+
+  float moveWidth   = textWidth(moveText);
+  float selectWidth = textWidth("SELECT");
+
+  float totalWidth =
+    arrowsWidth + iconTextGap + moveWidth +
+    groupGap +
+    spaceSize + iconTextGap + selectWidth;
+
+  float x = width/2 - totalWidth/2;
+
+  // ===== ARROWS =====
+  for (int i = 0; i < arrowRots.length; i++) {
+    drawArrow(x + (iconSize + iconGap) * i, y, arrowRots[i]);
+  }
+
+  x += arrowsWidth + iconTextGap;
+  text(moveText, x, y);
+
+  // ===== SPACE =====
+  x += moveWidth + groupGap;
+
+  image(space, x, y, spaceSize, spaceSize);
+  x += spaceSize + iconTextGap;
+  text("SELECT", x, y);
+}
+
+void keymapUpDown() {
+  drawKeymap(
+    new float[]{ 0, PI },   // UP, DOWN
+    "MOVE",
+    height - 60
+  );
+}
+
+void keymapRightLeft() {
+  drawKeymap(
+    new float[]{ -HALF_PI, HALF_PI },  // LEFT, RIGHT
+    "MOVE",
+    height - 60
+  );
+}
+
+void keymapEsc() {
+  textSize(18);
+  textAlign(LEFT, CENTER);
+
+  float padding = 30;   
+  float y = padding + 10;
+
+  float h = textAscent() + textDescent();  
+
+  float iconSize    = h * 1.5;   
+  float iconTextGap = 4;   
+
+  String escText = "BACK";
+
+  float x = padding;
+
+  // ESC image
+  image(esc, x, y, iconSize, iconSize);
+
+  // ESC text
+  x += iconSize + iconTextGap;
+  text(escText, x, y);
+}
+
+void keymapHorizontal(float y) {
+  pushStyle();
+  textSize(16);
+  textAlign(LEFT, CENTER);
+
+  float h = textAscent() + textDescent();
+
+  float iconSize    = h * 1.5;
+  float iconGap     = 8;
+  float textGap     = 6;
+  float groupGap    = 20;
+
+  // --- LEFT + RIGHT ---
+  float arrowsWidth = iconSize * 2 + iconGap;
+
+  // --- MOVE text ---
+  String moveText = "MOVE";
+  float moveWidth = textWidth(moveText);
+
+  // --- ESC ---
+  String escText = "BACK";
+  float escTextW = textWidth(escText);
+  float escWidth = iconSize + textGap + escTextW;
+
+  // --- total width ---
+  float totalWidth =
+    arrowsWidth + textGap + moveWidth +
+    groupGap +
+    escWidth;
+
+  float x = width/2 - totalWidth/2;
+
+  // ===== ARROWS =====
+  drawArrow(x, y, -HALF_PI);
+  drawArrow(x + iconSize + iconGap, y, HALF_PI);
+
+  x += arrowsWidth + textGap;
+
+  // ===== MOVE =====
+  text(moveText, x, y);
+  x += moveWidth + groupGap;
+
+  // ===== ESC =====
+  image(esc, x + iconSize/2, y, iconSize, iconSize);
+  x += iconSize + textGap;
+  text(escText, x, y);
+  popStyle();
+}
+
+void keymapList() {
+  keymapHorizontal(450);
 }
 
 void Keyboard() {

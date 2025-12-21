@@ -23,62 +23,6 @@ boolean brightness = false;
 boolean credits = false;
 
 
-void drawArrow(float x, float y, float rot){
-  float h = textAscent() + textDescent();
-  pushMatrix();
-  translate(x, y);
-  rotate(rot);
-  image(arrow, 0, 0, h, h);
-  popMatrix();
-}
-
-void keymap() {
-  textSize(18);
-  textAlign(LEFT, CENTER);
-
-  float y = height - 60;   // bottom center area
-  float h = textAscent() + textDescent();
-  float gap = h + 6;
-
-  String moveText = "MOVE";
-  String selectText = "SELECT";
-
-  float moveWidth   = textWidth(moveText);
-  float selectWidth = textWidth(selectText);
-
-  float arrowsWidth = gap * 4;   // 4 arrow icons
-  float spaceSize   = h * 2;         // space icon size
-
-  float groupGap = 40;           // gap between MOVE & SELECT groups
-
-  // total width of everything
-  float totalWidth =
-    arrowsWidth + 10 + moveWidth +
-    groupGap +
-    spaceSize + 10 + selectWidth;
-
-  // left edge so everything is centered
-  float startX = width/2 - totalWidth/2;
-
-  // ===== MOVE GROUP =====
-  float x = startX;
-
-  drawArrow(x + gap * 0, y, 0);         // UP
-  drawArrow(x + gap * 1, y, HALF_PI);   // RIGHT
-  drawArrow(x + gap * 2, y, PI);        // DOWN
-  drawArrow(x + gap * 3, y, -HALF_PI);  // LEFT
-
-  x += arrowsWidth + 10;
-  text(moveText, x, y);
-
-  // ===== SELECT GROUP =====
-  x += moveWidth + groupGap;
-
-  image(space, x, y, spaceSize, spaceSize);
-  x += spaceSize + 10;
-  text(selectText, x, y);
-}
-
 void drawMenu() {
   if (menu) {
     background(20, 30, 50);
@@ -97,7 +41,7 @@ void drawMenu() {
     textSize(18);
     
     //key map
-    keymap();
+    keymapUpDown();
     
     for (int i = 0; i < menuItems.length; i++) {
   
@@ -144,7 +88,10 @@ void drawSetting() {
   
     // Menu
     textSize(18);
-  
+    
+    keymapUpDown();
+    keymapEsc();
+    
     for (int i = 0; i < menuSetting.length; i++) {
   
       float x = 100;
@@ -189,6 +136,9 @@ void drawSetting() {
     // Volume level display
     textSize(24);
     text("Volume: " + int(volume * 10), width/2, 220);
+    
+    keymapRightLeft();
+    keymapEsc();
 
     // Single loop for the active skin type
     for (int i = 0; i < Audio.length; i++) {
