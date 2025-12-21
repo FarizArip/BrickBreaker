@@ -136,7 +136,7 @@ void drawSetting() {
       float y = 300;
 
       // pointer + jitter untuk yg dipilih
-      if (i == selected + 1) {
+      if (i == selected) {
         
         // perlambat jitter (update setiap 10 frame)
         if (jitterCooldown <= 0) {
@@ -145,13 +145,14 @@ void drawSetting() {
           jitterCooldown = 10;
         } else {
           jitterCooldown--;
-        }
-  
-        textAlign(LEFT, CENTER);
-        textSize(18);
   
         x += jitterX;
         y += jitterY;
+        }
+      }
+      if (i == selected + 1) {
+        textAlign(LEFT, CENTER);
+        textSize(18);
       }
   
       // teks menu
