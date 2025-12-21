@@ -33,6 +33,8 @@ void drawSkin() {
     
     // Menu
     textSize(18);
+    keymapEsc();
+    keymapUpDown();
     for (int i = 0; i < menuSkin.length; i++) {
   
       float x = 100;
@@ -99,7 +101,10 @@ void drawSkin() {
       nama = Brickskins;
       item = Bricks;
     }
-
+    
+    
+    keymapEsc();
+    keymapUpDown();
     // Single loop for the active skin type
     for (int i = 0; i < Seleksi; i++) {
       float x = 100;
