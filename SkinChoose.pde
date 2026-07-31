@@ -1,3 +1,4 @@
+// Muhammad Fariz Fadhilah
 boolean skin = false;
 boolean ballSkin = false;
 boolean paddleSkin = false;
@@ -105,7 +106,7 @@ void drawSkin() {
     
     keymapEsc();
     keymapUpDown();
-    // Single loop for the active skin type
+    
     for (int i = 0; i < Seleksi; i++) {
       float x = 100;
       float y = 240 + i * 55;
@@ -134,7 +135,6 @@ void drawSkin() {
       textSize(16);
       text(nama[i], x, y);
       
-      // Draw image based on skin type
       if (ballSkin) {
         image(item[i], xBall, y, ballDia, ballDia);
       } else if (paddleSkin) {
@@ -175,12 +175,10 @@ void drawTextWithStroke(String txt, float x, float y,
   
   pushStyle();
   
-  // Method 1: Draw stroke first with fill, then main text on top
   stroke(strokeColor);
   strokeWeight(strokeWeight);
-  fill(strokeColor);  // IMPORTANT: Fill with stroke color for the outline!
+  fill(strokeColor); 
   
-  // Draw the stroke version (slightly larger or offset)
   for (int i = -1; i <= 1; i++) {
     for (int j = -1; j <= 1; j++) {
       if (i != 0 || j != 0) {
@@ -189,7 +187,6 @@ void drawTextWithStroke(String txt, float x, float y,
     }
   }
   
-  // Draw the main fill text on top
   noStroke();
   fill(fillColor);
   text(txt, x, y);

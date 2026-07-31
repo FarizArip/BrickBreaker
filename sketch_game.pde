@@ -1,3 +1,4 @@
+// Muhammad Fariz Fadhilah & Regan Ananda Akbar Asshidqi
 PVector location;  // lokasinya
 PVector velocity;  // kecepatannya
 PVector savedVelocity;
@@ -154,7 +155,7 @@ void draw() {
       }
     }
     
-    // Bounce off top
+    // Mantul atas
     if (location.y < ballDia/2) {
       velocity.y *= -1;
       location.y = ballDia/2;
@@ -177,7 +178,7 @@ void draw() {
     boolean adaTumbukan = false;
     for (int i = 0; i < brickRows; i++) {
       for (int j = 0; j < brickCols; j++) {
-        if (bricks[i][j]) { // Cek jika brick masih aktif
+        if (bricks[i][j]) { // Cek brick masih aktif
           float brickX = j * brickWidth + 16;
           float brickY = i * brickHeight + 40; // Offset dari atas
           
@@ -248,7 +249,7 @@ void draw() {
 }
 
 void prosesJedaLevel() {
-  // Gambar bricks yang sudah ada
+  // Gambar bricks yang udah ada
   gambarBricks();
   
   // Gambar paddle dan bola
@@ -266,7 +267,7 @@ void prosesJedaLevel() {
   drawTextWithStroke("Memulai dalam: " + ((3000 - (millis() - waktuMulaiTunggu)) / 1000 + 1), width/2, height/2, 
     0, color(255, 255, 0), 5);
   
-  // Cek jika waktu tunggu sudah selesai
+  // Cek kalau waktu tunggu udah selesai
   if (millis() - waktuMulaiTunggu > 3000) { // 3 detik
     menungguLevelBaru = false;
     mulai = false;
@@ -275,7 +276,7 @@ void prosesJedaLevel() {
 }
 
 boolean deteksiTumbukanPaddle() {
-  // Titik terdekat pada paddle ke pusat bola
+  // Titik terdekat paddle ke pusat bola
   float closestX = constrain(location.x, paddleX, paddleX + paddleWidth);
   float closestY = constrain(location.y, paddleY, paddleY + paddleHeight);
   
@@ -288,7 +289,7 @@ boolean deteksiTumbukanPaddle() {
 }
 
 boolean deteksiTumbukanBrick(float brickX, float brickY, float brickW, float brickH) {
-  // Titik terdekat pada brick ke pusat bola
+  // Titik terdekat brick ke pusat bola
   float closestX = constrain(location.x, brickX, brickX + brickW);
   float closestY = constrain(location.y, brickY, brickY + brickH);
   
@@ -298,7 +299,7 @@ boolean deteksiTumbukanBrick(float brickX, float brickY, float brickW, float bri
   float distance = sqrt(distanceX * distanceX + distanceY * distanceY);
   
   if (distance < ballDia/2) {
-    // Tentukan sisi mana yang ditabrak untuk pantulan yang tepat
+    // Penentuan sisi mana yang tepat dipantul
     float overlapLeft = (location.x + ballDia/2) - brickX;
     float overlapRight = (brickX + brickW) - (location.x - ballDia/2);
     float overlapTop = (location.y + ballDia/2) - brickY;
@@ -321,15 +322,13 @@ boolean deteksiTumbukanBrick(float brickX, float brickY, float brickW, float bri
 void gambarBricks() {
   for (int i = 0; i < brickRows; i++) {
     for (int j = 0; j < brickCols; j++) {
-      if (bricks[i][j]) { // Hanya gambar brick yang aktif
+      if (bricks[i][j]) { // Gambar brick saja aktif
         float brickX = j * brickWidth + 43.5;
         float brickY = i * brickHeight + 50;
         
-        // Use the row-specific image from the 2D array
         if (rowBrickImages[i][j] != null) {
           image(rowBrickImages[i][j], brickX, brickY, brickWidth - 5, brickHeight - 5);
         } else {
-          // Fallback to the selected brick skin
           image(Bricks[chooseBrick], brickX, brickY, brickWidth - 5, brickHeight - 5);
         }
         
@@ -347,7 +346,6 @@ void initializeBrickRows() {
   for (int i = 0; i < brickRows; i++) {
     rowBrickImages[i] = new PImage[brickCols];
     
-    // Choose different brick variations for each row based on selected skin
     int rowType = i % 4;
     
     for (int j = 0; j < brickCols; j++) {
@@ -521,7 +519,7 @@ void drawKeymap(
 
   float x = width/2 - totalWidth/2;
 
-  // ===== ARROWS =====
+  // ARROWS
   for (int i = 0; i < arrowRots.length; i++) {
     drawArrow(x + (iconSize + iconGap) * i, y, arrowRots[i]);
   }
@@ -529,7 +527,7 @@ void drawKeymap(
   x += arrowsWidth + iconTextGap;
   text(moveText, x, y);
 
-  // ===== SPACE =====
+  // SPACE
   x += moveWidth + groupGap;
 
   image(space, x, y, spaceSize, spaceSize);
@@ -589,19 +587,19 @@ void keymapHorizontal(float y) {
   float textGap     = 6;
   float groupGap    = 20;
 
-  // --- LEFT + RIGHT ---
+  // LEFT + RIGHT
   float arrowsWidth = iconSize * 2 + iconGap;
 
-  // --- MOVE text ---
+  // MOVE text
   String moveText = "MOVE";
   float moveWidth = textWidth(moveText);
 
-  // --- ESC ---
+  // ESC
   String escText = "BACK";
   float escTextW = textWidth(escText);
   float escWidth = iconSize + textGap + escTextW;
 
-  // --- total width ---
+  // total width
   float totalWidth =
     arrowsWidth + textGap + moveWidth +
     groupGap +
@@ -609,17 +607,17 @@ void keymapHorizontal(float y) {
 
   float x = width/2 - totalWidth/2;
 
-  // ===== ARROWS =====
+  // ARROWS
   drawArrow(x, y, -HALF_PI);
   drawArrow(x + iconSize + iconGap, y, HALF_PI);
 
   x += arrowsWidth + textGap;
 
-  // ===== MOVE =====
+  // MOVE
   text(moveText, x, y);
   x += moveWidth + groupGap;
 
-  // ===== ESC =====
+  // ESC
   image(esc, x + iconSize/2, y, iconSize, iconSize);
   x += iconSize + textGap;
   text(escText, x, y);

@@ -1,3 +1,4 @@
+// Magnolia Azizah Carissa & Muhammad Fariz Fadhilah
 // ===============================
 //  RETRO MENU — SMALL FONT + LEFT ALIGN + SLOW JITTER
 // ===============================
@@ -45,6 +46,7 @@ void drawMenu() {
     
     //key map
     keymapUpDown();
+    if (first) keymapEsc();
     
     for (int i = 0; i < menuItems.length; i++) {
   

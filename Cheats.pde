@@ -1,3 +1,4 @@
+// Muhammad Fariz Fadhilah
 import java.util.*;
 
 HashMap<String, Runnable> cheatCodes = new HashMap<String, Runnable>();
